@@ -36,4 +36,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         else
             return scheduleDao.getSchedulesByDayAndAuthor(startTime, endTime, author);
     }
+
+    @Override
+    public ScheduleResponseDTO searchSchedule(Long id) {
+        return scheduleDao.getScheduleById(id);
+    }
 }

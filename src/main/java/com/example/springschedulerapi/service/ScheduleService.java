@@ -11,4 +11,6 @@ public interface ScheduleService {
     ScheduleResponseDTO saveSchedule(ScheduleRequestDTO dto);
 
     List<ScheduleResponseDTO> searchSchedules(LocalDate start, LocalDate end, String author);
+
+    ScheduleResponseDTO searchSchedule(Long id);
 }

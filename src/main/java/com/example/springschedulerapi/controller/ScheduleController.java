@@ -52,4 +52,16 @@ public class ScheduleController {
             end = LocalDate.now();
         return new ResponseEntity<>(scheduleService.searchSchedules(start, end, author),HttpStatus.OK);
     }
+
+    /**
+     * 선택 일정 조회 API
+     * @param id 조회할 일정의 id
+     * @return 조회된 일정의 DTO {@link ScheduleResponseDTO}
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDTO> getScheduleById(
+            @PathVariable Long id
+    ) {
+        return new ResponseEntity<>(scheduleService.searchSchedule(id), HttpStatus.OK);
+    }
 }
