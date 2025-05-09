@@ -68,4 +68,24 @@ public class ScheduleDao {
                 start, end, author
         );
     }
+
+    /**
+     * 비밀번호 조회 - id
+     * @param id 조회할 일정의 id
+     * @return id의 password
+     */
+    public String getPasswordById(Long id) {
+        String query = "SELECT password FROM schedule WHERE id = ?";
+        return jdbcTemplate.queryForObject(query, String.class, id);
+    }
+
+    public void updateAuthor(Long id, String author) {
+        String query = "UPDATE schedule SET author = ? WHERE id = ?";
+        jdbcTemplate.update(query, author, id);
+    }
+    public void updateTask(Long id, String task) {
+        String query = "UPDATE schedule SET task = ? WHERE id = ?";
+        jdbcTemplate.update(query, task, id);
+
+    }
 }

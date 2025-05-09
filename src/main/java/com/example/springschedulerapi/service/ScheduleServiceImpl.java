@@ -5,6 +5,7 @@ import com.example.springschedulerapi.dto.ScheduleRequestDTO;
 import com.example.springschedulerapi.dto.ScheduleResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,6 +40,26 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public ScheduleResponseDTO searchSchedule(Long id) {
+        return scheduleDao.getScheduleById(id);
+    }
+
+    @Override
+    public boolean checkPassword(Long id, ScheduleRequestDTO dto) {
+        if (dto.getPassword().equals(scheduleDao.getPasswordById(id))){
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    @Override
+    public ScheduleResponseDTO updateSchedule(Long id, ScheduleRequestDTO dto) {
+        if (dto.getAuthor() != null) {
+            scheduleDao.updateAuthor(id, dto.getAuthor());
+        }
+        if (dto.getTask() != null) {
+            scheduleDao.updateTask(id, dto.getTask());
+        }
         return scheduleDao.getScheduleById(id);
     }
 }

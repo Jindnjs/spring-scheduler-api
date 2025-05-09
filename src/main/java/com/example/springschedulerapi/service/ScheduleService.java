@@ -8,9 +8,14 @@ import java.util.List;
 
 public interface ScheduleService {
 
+    //
     ScheduleResponseDTO saveSchedule(ScheduleRequestDTO dto);
 
     List<ScheduleResponseDTO> searchSchedules(LocalDate start, LocalDate end, String author);
 
     ScheduleResponseDTO searchSchedule(Long id);
+
+    boolean checkPassword(Long id, ScheduleRequestDTO dto) ;
+
+    ScheduleResponseDTO updateSchedule(Long id, ScheduleRequestDTO dto);
 }

@@ -64,4 +64,31 @@ public class ScheduleController {
     ) {
         return new ResponseEntity<>(scheduleService.searchSchedule(id), HttpStatus.OK);
     }
+
+    /**
+     * 선택 일정 수정 API
+     * @param id 수정할 일정의 id
+     * @param dto 수정 요청 Dto
+     * @return 수정된 일정의 DTO {@link ScheduleResponseDTO}
+     */
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateSchedule(
+        @PathVariable Long id,
+        @RequestBody ScheduleRequestDTO dto
+    ){
+        if(dto.getAuthor() == null && dto.getTask() == null)
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .body("수정할내용이 없습니다.");
+
+        //비번 검증이 먼저일까 ? 컨트롤러에서 검증하는게 맞을까?
+        if(scheduleService.checkPassword(id, dto) == false)
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("비밀번호가 일치하지 않습니다.");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(scheduleService.updateSchedule(id, dto));
+    }
 }
