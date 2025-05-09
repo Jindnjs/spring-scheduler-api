@@ -88,4 +88,9 @@ public class ScheduleDao {
         jdbcTemplate.update(query, task, id);
 
     }
+
+    public void deleteSchedule(Long id) {
+        String query = "DELETE FROM schedule WHERE id = ?";
+        jdbcTemplate.update(query, id);
+    }
 }

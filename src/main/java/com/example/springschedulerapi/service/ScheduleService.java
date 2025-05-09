@@ -18,4 +18,6 @@ public interface ScheduleService {
     boolean checkPassword(Long id, ScheduleRequestDTO dto) ;
 
     ScheduleResponseDTO updateSchedule(Long id, ScheduleRequestDTO dto);
+
+    void deleteSchedule(Long id);
 }

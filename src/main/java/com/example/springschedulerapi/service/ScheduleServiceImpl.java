@@ -62,4 +62,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         return scheduleDao.getScheduleById(id);
     }
+
+    @Override
+    public void deleteSchedule(Long id) {
+        scheduleDao.deleteSchedule(id);
+    }
 }

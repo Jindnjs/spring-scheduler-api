@@ -91,4 +91,26 @@ public class ScheduleController {
                 .status(HttpStatus.OK)
                 .body(scheduleService.updateSchedule(id, dto));
     }
+
+    /**
+     * 선택 일정 삭제 API
+     * @param id 삭제할 일정의 id
+     * @param dto 비밀번호를 전달하는 DTO
+     * @return 응답 메시지
+     */
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteSchedule(
+            @PathVariable Long id,
+            @RequestBody ScheduleRequestDTO dto
+    ){
+        if(scheduleService.checkPassword(id, dto) == false)
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("비밀번호가 일치하지 않습니다.");
+
+        scheduleService.deleteSchedule(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
 }
