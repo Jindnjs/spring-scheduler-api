@@ -81,6 +81,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDTO updateSchedule(Long id, ScheduleRequest dto) {
 
+        Optional<ScheduleResponseDTO> optional = scheduleDao.getScheduleById(id);
+        if(optional.isEmpty())
+            throw new ScheduleNotFoundException(id + "은 없는 아이디 입니다.");
+
         validatePassword(id,dto);
 
         if (dto.getAuthorId() != null) {
