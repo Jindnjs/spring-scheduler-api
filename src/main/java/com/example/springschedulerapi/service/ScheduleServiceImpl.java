@@ -3,7 +3,8 @@ package com.example.springschedulerapi.service;
 import com.example.springschedulerapi.dao.ScheduleDao;
 import com.example.springschedulerapi.exception.PasswordMissMatchException;
 import com.example.springschedulerapi.exception.ScheduleNotFoundException;
-import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
+import com.example.springschedulerapi.model.dto.request.CreateScheduleRequest;
+import com.example.springschedulerapi.model.dto.request.ScheduleRequest;
 import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final AuthorService authorService;
 
     @Override
-    public ScheduleResponseDTO createSchedule(ScheduleRequestDTO dto) {
+    public ScheduleResponseDTO createSchedule(CreateScheduleRequest dto) {
         //사용자 검증
         authorService.validateAuthor(dto.getAuthorId());
         Long id = scheduleDao.insertSchedule(dto);
@@ -78,7 +79,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional
     @Override
-    public ScheduleResponseDTO updateSchedule(Long id, ScheduleRequestDTO dto) {
+    public ScheduleResponseDTO updateSchedule(Long id, ScheduleRequest dto) {
 
         validatePassword(id,dto);
 
@@ -93,7 +94,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public void deleteSchedule(Long id, ScheduleRequestDTO dto) {
+    public void deleteSchedule(Long id, ScheduleRequest dto) {
         Optional<ScheduleResponseDTO> optional = scheduleDao.getScheduleById(id);
         if(optional.isPresent()) {
             validatePassword(id, dto);
@@ -105,7 +106,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     }
 
-    private void validatePassword(Long id, ScheduleRequestDTO dto) {
+    private void validatePassword(Long id, ScheduleRequest dto) {
         if (!dto.getPassword().equals(scheduleDao.getPasswordById(id))){
             throw new PasswordMissMatchException("비밀번호가 일치하지 않습니다.");
         }

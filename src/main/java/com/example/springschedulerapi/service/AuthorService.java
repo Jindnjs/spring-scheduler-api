@@ -1,6 +1,6 @@
 package com.example.springschedulerapi.service;
 
-import com.example.springschedulerapi.model.dto.request.AuthorRequestDTO;
+import com.example.springschedulerapi.model.dto.request.CreateAuthorRequest;
 import com.example.springschedulerapi.model.dto.response.AuthorResponseDTO;
 
 public interface AuthorService {
@@ -10,7 +10,7 @@ public interface AuthorService {
      * @param dto 생성할 작성자의 정보를 담은 dto
      * @return 생성된 작성자의 dto {@link AuthorResponseDTO}
      */
-    AuthorResponseDTO createAuthor(AuthorRequestDTO dto);
+    AuthorResponseDTO createAuthor(CreateAuthorRequest dto);
 
     /**
      * 작성자를 검증하는 메소드

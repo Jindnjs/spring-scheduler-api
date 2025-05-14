@@ -1,8 +1,9 @@
 package com.example.springschedulerapi.controller;
 
-import com.example.springschedulerapi.model.dto.request.AuthorRequestDTO;
+import com.example.springschedulerapi.model.dto.request.CreateAuthorRequest;
 import com.example.springschedulerapi.model.dto.response.AuthorResponseDTO;
 import com.example.springschedulerapi.service.AuthorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class AuthorController {
      */
     @PostMapping
     public ResponseEntity<AuthorResponseDTO> createAuthor(
-            @RequestBody AuthorRequestDTO dto
+            @RequestBody @Valid CreateAuthorRequest dto
     ) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)

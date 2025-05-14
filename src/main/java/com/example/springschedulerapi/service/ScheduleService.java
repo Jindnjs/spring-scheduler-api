@@ -1,6 +1,7 @@
 package com.example.springschedulerapi.service;
 
-import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
+import com.example.springschedulerapi.model.dto.request.CreateScheduleRequest;
+import com.example.springschedulerapi.model.dto.request.ScheduleRequest;
 import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface ScheduleService {
 
     //
-    ScheduleResponseDTO createSchedule(ScheduleRequestDTO dto);
+    ScheduleResponseDTO createSchedule(CreateScheduleRequest dto);
 
     List<ScheduleResponseDTO> searchSchedules(LocalDate start, LocalDate end, Long authorId);
 
@@ -19,7 +20,7 @@ public interface ScheduleService {
 
     ScheduleResponseDTO searchSchedule(Long id);
 
-    ScheduleResponseDTO updateSchedule(Long id, ScheduleRequestDTO dto);
+    ScheduleResponseDTO updateSchedule(Long id, ScheduleRequest dto);
 
-    void deleteSchedule(Long id, ScheduleRequestDTO dto);
+    void deleteSchedule(Long id, ScheduleRequest dto);
 }

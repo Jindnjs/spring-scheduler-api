@@ -1,6 +1,6 @@
 package com.example.springschedulerapi.dao;
 
-import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
+import com.example.springschedulerapi.model.dto.request.CreateScheduleRequest;
 import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,7 +24,7 @@ public class ScheduleDao {
      * @param dto 생성할 일정의 정보를 담은 dto
      * @return 생성된 일정의 Id값
      */
-    public Long insertSchedule(ScheduleRequestDTO dto) {
+    public Long insertSchedule(CreateScheduleRequest dto) {
         String query = "INSERT INTO schedule (task, password, author_id) VALUES (?, ?, ?)";
         jdbcTemplate.update(query, dto.getTask(), dto.getPassword(), dto.getAuthorId());
         Long id = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);

@@ -1,6 +1,6 @@
 package com.example.springschedulerapi.dao;
 
-import com.example.springschedulerapi.model.dto.request.AuthorRequestDTO;
+import com.example.springschedulerapi.model.dto.request.CreateAuthorRequest;
 import com.example.springschedulerapi.model.dto.response.AuthorResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,7 +20,7 @@ public class AuthorDao {
      * @param dto 생성할 작성자의 정보를 담은 dto
      * @return 생성된 작성자의 id
      */
-    public Long save(AuthorRequestDTO dto) {
+    public Long save(CreateAuthorRequest dto) {
         String query = "INSERT INTO author (name, email) VALUES (?, ?)";
         jdbcTemplate.update(query, dto.getName(), dto.getEmail());
         Long id = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);

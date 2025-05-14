@@ -1,8 +1,10 @@
 package com.example.springschedulerapi.controller;
 
-import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
+import com.example.springschedulerapi.model.dto.request.CreateScheduleRequest;
+import com.example.springschedulerapi.model.dto.request.ScheduleRequest;
 import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 import com.example.springschedulerapi.service.ScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +30,7 @@ public class ScheduleController {
      */
     @PostMapping
     public ResponseEntity<ScheduleResponseDTO> createSchedule(
-            @RequestBody ScheduleRequestDTO dto
+            @RequestBody @Valid CreateScheduleRequest dto
     ){
         return new ResponseEntity<>(scheduleService.createSchedule(dto), HttpStatus.CREATED);
     }
@@ -83,7 +85,7 @@ public class ScheduleController {
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateSchedule(
         @PathVariable Long id,
-        @RequestBody ScheduleRequestDTO dto
+        @RequestBody @Valid ScheduleRequest dto
     ){
         if(dto.getAuthorId() == null && dto.getTask() == null)
             return ResponseEntity
@@ -104,7 +106,7 @@ public class ScheduleController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteSchedule(
             @PathVariable Long id,
-            @RequestBody ScheduleRequestDTO dto
+            @RequestBody @Valid ScheduleRequest dto
     ){
         scheduleService.deleteSchedule(id, dto);
         return ResponseEntity
