@@ -4,6 +4,7 @@ import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
 import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -127,5 +128,27 @@ public class ScheduleDao {
     public void deleteSchedule(Long id) {
         String query = "DELETE FROM schedule WHERE id = ?";
         jdbcTemplate.update(query, id);
+    }
+
+    /**
+     * 전체 일정 갯수 반환
+     * @return 전체 일정 수
+     */
+    public int getTotalCount(){
+        String query = "SELECT COUNT(*) FROM schedule";
+        return jdbcTemplate.queryForObject(query, Integer.class);
+    }
+
+    /**
+     * 전체 일정 조회 - 페이징
+     * @param
+     * @return 페이지에 맞는 일정 리스트 {@link}
+     */
+    public List<ScheduleResponseDTO> getSchedulePage(Pageable pageable) {
+        String query = "SELECT * FROM schedule LIMIT ? OFFSET ?";
+        return jdbcTemplate.query(
+                query, new BeanPropertyRowMapper<>(ScheduleResponseDTO.class),
+                pageable.getPageSize(), pageable.getOffset()
+        );
     }
 }

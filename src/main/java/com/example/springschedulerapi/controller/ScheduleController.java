@@ -4,6 +4,8 @@ import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
 import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 import com.example.springschedulerapi.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +60,19 @@ public class ScheduleController {
     ) {
         return new ResponseEntity<>(scheduleService.searchSchedule(id), HttpStatus.OK);
     }
+
+    /**
+     * 페이지 검색 API
+     * @param
+     * @return 조건에 맞는 일정 페이지 {@link Page<ScheduleResponseDTO>}
+     */
+    @GetMapping("/page")
+    public ResponseEntity<Page<ScheduleResponseDTO>> getSchedulePageable(
+            Pageable page
+    ) {
+        return new ResponseEntity<>(scheduleService.getSchedulePages(page),HttpStatus.OK);
+    }
+
 
     /**
      * 선택 일정 수정 API
