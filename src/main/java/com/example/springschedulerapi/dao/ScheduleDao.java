@@ -3,12 +3,14 @@ package com.example.springschedulerapi.dao;
 import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
 import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,8 +24,8 @@ public class ScheduleDao {
      * @return 생성된 일정의 Id값
      */
     public Long insertSchedule(ScheduleRequestDTO dto) {
-        String query = "INSERT INTO schedule (task, author, password) VALUES (?, ?, ?)";
-        jdbcTemplate.update(query, dto.getTask(), dto.getAuthor(), dto.getPassword());
+        String query = "INSERT INTO schedule (task, password, author_id) VALUES (?, ?, ?)";
+        jdbcTemplate.update(query, dto.getTask(), dto.getPassword(), dto.getAuthorId());
         Long id = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
         return id;
     }
@@ -33,9 +35,28 @@ public class ScheduleDao {
      * @param id 조회할 일정의 id
      * @return 조회된 일정 DTO {@link ScheduleResponseDTO}
      */
-    public ScheduleResponseDTO getScheduleById(Long id) {
+    public Optional<ScheduleResponseDTO> getScheduleById(Long id) {
         String query = "SELECT * FROM schedule WHERE id = ?";
-        return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(ScheduleResponseDTO.class), id);
+        try{
+            ScheduleResponseDTO a = jdbcTemplate.queryForObject
+                    (query, new BeanPropertyRowMapper<>(ScheduleResponseDTO.class), id);
+            return Optional.of(a);
+        }
+        catch (EmptyResultDataAccessException e){
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * 일정 목록 조회 - 전체 목록
+     * @return 조회된 일정 DTO 리스트 {@link List<ScheduleResponseDTO>}
+     */
+    public List<ScheduleResponseDTO> getAllSchedule() {
+        String query = "SELECT * FROM schedule ORDER BY updated_at DESC";
+        return jdbcTemplate.query(
+                query,
+                new BeanPropertyRowMapper<>(ScheduleResponseDTO.class)
+        );
     }
 
     /**
@@ -44,8 +65,8 @@ public class ScheduleDao {
      * @param end 종료 날짜
      * @return 조회된 일정 DTO 리스트 {@link List<ScheduleResponseDTO>}
      */
-    public List<ScheduleResponseDTO> getSchedulesByDay(LocalDateTime start, LocalDateTime end) {
-        String query = "SELECT * FROM schedule WHERE updated_at >= ? AND updated_at < ? ORDER BY updated_at DESC";
+    public List<ScheduleResponseDTO> getSchedulesByDay(LocalDate start, LocalDate end) {
+        String query = "SELECT * FROM schedule WHERE updated_at >= ? AND updated_at <= ? ORDER BY updated_at DESC";
         return jdbcTemplate.query(
                 query,
                 new BeanPropertyRowMapper<>(ScheduleResponseDTO.class),
@@ -57,15 +78,29 @@ public class ScheduleDao {
      * 일정 목록 조회 - 날짜 & 작성자명 기준
      * @param start 시작 날짜
      * @param end 종료 날짜
-     * @param author 작성자명
+     * @param authorId 작성자Id
      * @return 조회된 일정 DTO 리스트 {@link List<ScheduleResponseDTO>}
      */
-    public List<ScheduleResponseDTO> getSchedulesByDayAndAuthor(LocalDateTime start, LocalDateTime end, String author) {
-        String query = "SELECT * FROM schedule WHERE updated_at >= ? AND updated_at < ? AND author like ? ORDER BY updated_at DESC";
+    public List<ScheduleResponseDTO> getSchedulesByDayAndAuthor(LocalDate start, LocalDate end, Long authorId) {
+        String query = "SELECT * FROM schedule WHERE updated_at >= ? AND updated_at <= ? AND author_id=? ORDER BY updated_at DESC";
         return jdbcTemplate.query(
                 query,
                 new BeanPropertyRowMapper<>(ScheduleResponseDTO.class),
-                start, end, author
+                start, end, authorId
+        );
+    }
+
+    /**
+     * 일정 목록 조회 - 날짜 & 작성자명 기준
+     * @param authorId 작성자명
+     * @return 조회된 일정 DTO 리스트 {@link List<ScheduleResponseDTO>}
+     */
+    public List<ScheduleResponseDTO> getScheduleByAuthor(Long authorId) {
+        String query = "SELECT * FROM schedule WHERE  author_id = ? ORDER BY updated_at DESC";
+        return jdbcTemplate.query(
+                query,
+                new BeanPropertyRowMapper<>(ScheduleResponseDTO.class),
+                authorId
         );
     }
 
@@ -79,9 +114,9 @@ public class ScheduleDao {
         return jdbcTemplate.queryForObject(query, String.class, id);
     }
 
-    public void updateAuthor(Long id, String author) {
-        String query = "UPDATE schedule SET author = ? WHERE id = ?";
-        jdbcTemplate.update(query, author, id);
+    public void updateAuthor(Long id, Long authorId) {
+        String query = "UPDATE schedule SET author_id = ? WHERE id = ?";
+        jdbcTemplate.update(query, authorId, id);
     }
     public void updateTask(Long id, String task) {
         String query = "UPDATE schedule SET task = ? WHERE id = ?";

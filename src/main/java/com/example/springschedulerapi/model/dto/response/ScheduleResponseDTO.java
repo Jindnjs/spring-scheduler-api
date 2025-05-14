@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class ScheduleResponseDTO {
     private Long id;
     private String task;
-    private String author;
+    private Long authorId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
