@@ -1,8 +1,8 @@
 package com.example.springschedulerapi.service;
 
 import com.example.springschedulerapi.dao.ScheduleDao;
-import com.example.springschedulerapi.dto.ScheduleRequestDTO;
-import com.example.springschedulerapi.dto.ScheduleResponseDTO;
+import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
+import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

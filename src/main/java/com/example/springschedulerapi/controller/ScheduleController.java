@@ -1,7 +1,7 @@
 package com.example.springschedulerapi.controller;
 
-import com.example.springschedulerapi.dto.ScheduleRequestDTO;
-import com.example.springschedulerapi.dto.ScheduleResponseDTO;
+import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
+import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 import com.example.springschedulerapi.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;

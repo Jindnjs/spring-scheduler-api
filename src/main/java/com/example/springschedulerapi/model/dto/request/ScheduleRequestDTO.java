@@ -1,4 +1,4 @@
-package com.example.springschedulerapi.dto;
+package com.example.springschedulerapi.model.dto.request;
 
 import lombok.Getter;
 

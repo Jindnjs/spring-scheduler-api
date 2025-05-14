@@ -1,7 +1,7 @@
 package com.example.springschedulerapi.dao;
 
-import com.example.springschedulerapi.dto.ScheduleRequestDTO;
-import com.example.springschedulerapi.dto.ScheduleResponseDTO;
+import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
+import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

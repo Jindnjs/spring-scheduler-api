@@ -1,7 +1,7 @@
 package com.example.springschedulerapi.service;
 
-import com.example.springschedulerapi.dto.ScheduleRequestDTO;
-import com.example.springschedulerapi.dto.ScheduleResponseDTO;
+import com.example.springschedulerapi.model.dto.request.ScheduleRequestDTO;
+import com.example.springschedulerapi.model.dto.response.ScheduleResponseDTO;
 
 import java.time.LocalDate;
 import java.util.List;
